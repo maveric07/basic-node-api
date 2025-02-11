@@ -1,0 +1,26 @@
+name: CI/CD Pipeline  # Name of the workflow
+
+on:  # When to trigger the workflow
+  push:
+    branches: [ main ]  # Run on code pushed to the main branch
+  pull_request:
+    branches: [ main ]  # Also run when a pull request targets main
+
+jobs:
+  build-and-test:  # Job name
+    runs-on: ubuntu-latest  # GitHub provides a free Linux VM
+
+    steps:
+      - name: Checkout code  # Step 1: Get the latest code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js  # Step 2: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies  # Step 3: Install npm packages
+        run: npm install
+
+      - name: Run tests  # Step 4: Run tests with Jest
+        run: npm test
